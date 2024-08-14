@@ -1,4 +1,4 @@
-package com.example.techstore.services;
+/* package com.example.techstore.services;
 
 import com.example.techstore.dao.entites.User;
 import com.example.techstore.dao.enums.Role;
@@ -101,3 +101,4 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 }
+ */

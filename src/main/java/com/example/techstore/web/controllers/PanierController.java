@@ -18,24 +18,24 @@ public class PanierController {
     private final PanierService panierService;
 
     @GetMapping("/{userId}")
-    public ResponseEntity<List<Produit>> getPanier(@PathVariable Long userId) {
+    public ResponseEntity<List<Produit>> getPanier(@PathVariable String userId) {
         return ResponseEntity.ok(panierService.getPanierForUser(userId));
     }
 
     @PostMapping("/{userId}/add/{produitId}")
-    public ResponseEntity<Void> addToPanier(@PathVariable Long userId, @PathVariable Long produitId) {
+    public ResponseEntity<Void> addToPanier(@PathVariable String userId, @PathVariable Long produitId) {
         panierService.addToPanier(userId, produitId);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{userId}/update/{produitId}")
-    public ResponseEntity<Void> updatePanierItem(@PathVariable Long userId, @PathVariable Long produitId, @RequestBody Integer quantity) {
+    public ResponseEntity<Void> updatePanierItem(@PathVariable String userId, @PathVariable Long produitId, @RequestBody Integer quantity) {
         panierService.updatePanierItem(userId, produitId, quantity);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{userId}/remove/{produitId}")
-    public ResponseEntity<Void> removeFromPanier(@PathVariable Long userId, @PathVariable Long produitId) {
+    public ResponseEntity<Void> removeFromPanier(@PathVariable String userId, @PathVariable Long produitId) {
         panierService.removeFromPanier(userId, produitId);
         return ResponseEntity.ok().build();
     }

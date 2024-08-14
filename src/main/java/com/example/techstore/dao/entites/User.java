@@ -1,11 +1,11 @@
 package com.example.techstore.dao.entites;
 
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import com.example.techstore.dao.enums.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
@@ -13,6 +13,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -39,29 +40,22 @@ import lombok.NoArgsConstructor;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "user_id", unique = true, nullable = false)
-    private Long id;
-
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "num_tele")
-    private String numTelephone;
-
-    @Column(name = "email", unique = true, nullable = false)
-    @Email(message = "Email should be valid")
-    @Pattern(regexp = ".+@.+\\..+", message = "Email should be in the format user@domain.com")
-    private String email;
-
-    @Column(name = "password")
-    @Size(min = 6, message = "Password should be at least 6 characters long")
-    private String password;
-
-    @Column(name = "role")
-    @Enumerated(EnumType.STRING)
-    @Builder.Default
-    private Role role=Role.USER;
+    private String userName;
+    private String userFirstName;
+    private String userLastName;
+    private String userEmail;
+    private String userTelephone;
+    private String userPassword;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "USER_ROLE",
+            joinColumns = {
+                    @JoinColumn(name = "USER_ID")
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "ROLE_ID")
+            }
+    )
+    private Set<Role> role;
 
 @ManyToMany(cascade = CascadeType.ALL)
 @JoinTable(

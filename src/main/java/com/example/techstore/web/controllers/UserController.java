@@ -1,5 +1,51 @@
 package com.example.techstore.web.controllers;
 
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.techstore.dao.entites.User;
+import com.example.techstore.services.UserService;
+
+import jakarta.annotation.PostConstruct;
+
+
+
+@RestController
+public class UserController {
+
+    @Autowired
+    private UserService userService;
+
+    @PostConstruct
+    public void initRoleAndUser() {
+        userService.initRoleAndUser();
+    }
+
+    @PostMapping({"/registerNewUser"})
+    public User registerNewUser(@RequestBody User user) {
+        return userService.registerNewUser(user);
+    }
+
+    @GetMapping({"/forAdmin"})
+    @PreAuthorize("hasRole('Admin')")
+    public String forAdmin(){
+        return "This URL is only accessible to the admin";
+    }
+
+    @GetMapping({"/forUser"})
+    @PreAuthorize("hasRole('User')")
+    public String forUser(){
+        return "This URL is only accessible to the user";
+    }
+}
+
+/* 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -74,6 +120,6 @@ public class UserController {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
+ } */
 
 
-}
